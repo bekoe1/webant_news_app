@@ -1,22 +1,23 @@
 import 'dart:developer';
 
-import 'package:bloc_test_app/presentation/all_news_page/bloc/all_news_bloc.dart';
+import 'package:bloc_test_app/presentation/all_Blogs_page/bloc/all_blogs_bloc.dart';
 import 'package:bloc_test_app/presentation/current_article_page/current_article_page.dart';
 import 'package:bloc_test_app/utils/nav_bar_helper.dart';
 import 'package:bloc_test_app/utils/text_styles.dart';
 import 'package:bloc_test_app/widgets/custom_textformfield.dart';
-import 'package:bloc_test_app/widgets/news_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class AllNewsPage extends StatefulWidget {
-  const AllNewsPage({super.key});
+import '../../widgets/news_list.dart';
+
+class AllBlogsPage extends StatefulWidget {
+  const AllBlogsPage({super.key});
 
   @override
-  State<AllNewsPage> createState() => _AllNewsPageState();
+  State<AllBlogsPage> createState() => _AllBlogsPageState();
 }
 
-class _AllNewsPageState extends State<AllNewsPage> {
+class _AllBlogsPageState extends State<AllBlogsPage> {
   final _scrollController = ScrollController();
   final _searchController = TextEditingController();
   bool isSearching = false;
@@ -35,10 +36,10 @@ class _AllNewsPageState extends State<AllNewsPage> {
 
     if (_scrollController.position.pixels >=
         _scrollController.position.maxScrollExtent * 0.7) {
-      final state = context.read<AllNewsBloc>().state;
-      if (state is NewsFetchedSuccessfully && !state.isLoading) {
-        context.read<AllNewsBloc>().add(
-              FetchingNewsEvent(),
+      final state = context.read<AllBlogsBloc>().state;
+      if (state is BlogsFetchedSuccessfully && !state.isLoading) {
+        context.read<AllBlogsBloc>().add(
+              FetchingBlogsEvent(),
             );
         log("fetch");
       }
@@ -62,8 +63,8 @@ class _AllNewsPageState extends State<AllNewsPage> {
                 width: 250,
                 height: 50,
                 onChanged: (text) {
-                  context.read<AllNewsBloc>().add(
-                        SearchingNewsEvent(text: text),
+                  context.read<AllBlogsBloc>().add(
+                        SearchingBlogsEvent(text: text),
                       );
                 },
               )
@@ -71,7 +72,7 @@ class _AllNewsPageState extends State<AllNewsPage> {
                 padding: EdgeInsets.only(
                     left: MediaQuery.of(context).size.width / 5),
                 child: const Text(
-                  "All News",
+                  "All Blogs",
                   style: MyTextStyles.appBarTitleStyle,
                 ),
               ),
@@ -90,7 +91,7 @@ class _AllNewsPageState extends State<AllNewsPage> {
               )
             : BackButton(onPressed: () {
                 if (_searchController.text != "") {
-                  context.read<AllNewsBloc>().add(RefreshingNewsEvent());
+                  context.read<AllBlogsBloc>().add(RefreshingBlogsEvent());
                   _searchController.text = "";
                 }
                 setState(
@@ -100,9 +101,9 @@ class _AllNewsPageState extends State<AllNewsPage> {
                 );
               }),
       ),
-      body: BlocConsumer<AllNewsBloc, AllNewsState>(
+      body: BlocConsumer<AllBlogsBloc, AllBlogsState>(
         listener: (context, state) {
-          if (state is NewsFetchedWithError) {
+          if (state is BlogsFetchedWithError) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(state.error),
@@ -113,10 +114,10 @@ class _AllNewsPageState extends State<AllNewsPage> {
           }
         },
         builder: (context, state) {
-          if (state is NewsFetchedSuccessfully) {
+          if (state is BlogsFetchedSuccessfully) {
             if (isSearching) {
               return NewsList(
-                articles: state.news,
+                articles: state.blogs,
                 scrollController: _scrollController,
                 isLoading: state.isLoading,
                 onTap: (index) {
@@ -127,10 +128,10 @@ class _AllNewsPageState extends State<AllNewsPage> {
             } else {
               return RefreshIndicator(
                 onRefresh: () async {
-                  context.read<AllNewsBloc>().add(RefreshingNewsEvent());
+                  context.read<AllBlogsBloc>().add(RefreshingBlogsEvent());
                 },
                 child: NewsList(
-                  articles: state.news,
+                  articles: state.blogs,
                   scrollController: _scrollController,
                   isLoading: state.isLoading,
                   onTap: (index) {
@@ -153,7 +154,7 @@ class _AllNewsPageState extends State<AllNewsPage> {
       MaterialPageRoute(
         builder: (context) => CurrentArticlePage(
           id: index,
-          isBlog: false,
+          isBlog: true,
         ),
       ),
     );

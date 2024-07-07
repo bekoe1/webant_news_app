@@ -1,5 +1,5 @@
 import 'package:bloc_test_app/utils/text_styles.dart';
-import 'package:bloc_test_app/widgets/shimmer_container.dart';
+import 'package:bloc_test_app/widgets/image_with_shimmer.dart';
 import 'package:flutter/material.dart';
 
 class ArticleItem extends StatelessWidget {
@@ -24,28 +24,10 @@ class ArticleItem extends StatelessWidget {
       padding: const EdgeInsets.all(8),
       child: Row(
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(6),
-            child: Image.network(
-              fit: BoxFit.fill,
-              height: 70,
-              width: 70,
-              imageUrl,
-              loadingBuilder: (context, child, loadingProgress) {
-                if (loadingProgress == null) return child;
-                return const ShimmerContainer(
-                  height: 70,
-                  width: 70,
-                );
-              },
-              errorBuilder: (context, error, stackTrace) {
-                return Image.asset(
-                  "no_data.svg",
-                  height: 70,
-                  width: 70,
-                );
-              },
-            ),
+          ImageWithShimmerAndErrorImage(
+            imageUrl: imageUrl,
+            height: 70,
+            width: 70,
           ),
           const SizedBox(width: 8),
           Column(

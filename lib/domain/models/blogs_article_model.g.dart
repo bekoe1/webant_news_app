@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'news_article_model.dart';
+part of 'blogs_article_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-NewsArticleModel _$NewsArticleModelFromJson(Map<String, dynamic> json) =>
-    NewsArticleModel(
+BlogsArticleModel _$BlogsArticleModelFromJson(Map<String, dynamic> json) =>
+    BlogsArticleModel(
       id: (json['id'] as num).toInt(),
       title: json['title'] as String,
       url: json['url'] as String,
@@ -20,10 +20,12 @@ NewsArticleModel _$NewsArticleModelFromJson(Map<String, dynamic> json) =>
       launches: (json['launches'] as List<dynamic>)
           .map((e) => Launch.fromJson(e as Map<String, dynamic>))
           .toList(),
-      events: json['events'] as List<dynamic>,
+      events: (json['events'] as List<dynamic>)
+          .map((e) => Event.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
-Map<String, dynamic> _$NewsArticleModelToJson(NewsArticleModel instance) =>
+Map<String, dynamic> _$BlogsArticleModelToJson(BlogsArticleModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'title': instance.title,
@@ -36,6 +38,16 @@ Map<String, dynamic> _$NewsArticleModelToJson(NewsArticleModel instance) =>
       'featured': instance.featured,
       'launches': instance.launches,
       'events': instance.events,
+    };
+
+Event _$EventFromJson(Map<String, dynamic> json) => Event(
+      eventId: (json['event_id'] as num).toInt(),
+      provider: json['provider'] as String,
+    );
+
+Map<String, dynamic> _$EventToJson(Event instance) => <String, dynamic>{
+      'event_id': instance.eventId,
+      'provider': instance.provider,
     };
 
 Launch _$LaunchFromJson(Map<String, dynamic> json) => Launch(

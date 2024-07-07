@@ -1,3 +1,4 @@
+import 'package:bloc_test_app/domain/models/blogs_article_model.dart';
 import 'package:bloc_test_app/domain/models/news_article_model.dart';
 import 'package:bloc_test_app/widgets/article_item.dart';
 import 'package:bloc_test_app/widgets/shimmer_container.dart';
@@ -8,36 +9,36 @@ class NewsList extends StatelessWidget {
     super.key,
     required this.isLoading,
     required this.onTap,
-    required this.news,
+    required this.articles,
     required this.scrollController,
   });
 
-  final List<NewsArticleModel> news;
+  final List<dynamic> articles;
   final bool isLoading;
   final ScrollController scrollController;
-  final void Function() onTap;
+  final void Function(int index) onTap;
 
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
       itemBuilder: (context, index) {
-        if (index < news.length) {
-          return GestureDetector(
-            onTap: onTap,
-            child: Center(
+        if (index < articles.length) {
+          if (articles.every((element) => element is NewsArticleModel) ||
+              (articles.every((element) => element is BlogsArticleModel))) {
+            return Center(
               child: GestureDetector(
                 onTap: () {
-                  //TODO goto article page
+                  onTap(articles[index].id);
                 },
                 child: ArticleItem(
-                  imageUrl: news[index].imageUrl,
-                  id: news[index].id,
-                  title: news[index].title,
-                  description: news[index].summary,
+                  imageUrl: articles[index].imageUrl,
+                  id: articles[index].id,
+                  title: articles[index].title,
+                  description: articles[index].summary,
                 ),
               ),
-            ),
-          );
+            );
+          }
         } else {
           return const Padding(
             padding: EdgeInsets.only(
@@ -54,7 +55,7 @@ class NewsList extends StatelessWidget {
           );
         }
       },
-      itemCount: news.length + (isLoading ? 10 : 0),
+      itemCount: articles.length + (isLoading ? 10 : 0),
       separatorBuilder: (BuildContext context, int index) {
         return const SizedBox(height: 16);
       },

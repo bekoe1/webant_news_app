@@ -1,16 +1,16 @@
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
+import 'package:bloc_test_app/data/repo_implementation/news_and_blogs_repo_implementation.dart';
+import 'package:bloc_test_app/domain/models/news_article_model.dart';
+import 'package:bloc_test_app/domain/repo/news_and_blogs_repo.dart';
 import 'package:meta/meta.dart';
-import 'package:webant_news_app/data/repo_implementation/news_and_blogs_repo_impl.dart';
-import 'package:webant_news_app/domain/models/news_article_model.dart';
-import 'package:webant_news_app/domain/repo/news_and_blogs_repo.dart';
 
 part 'all_news_event.dart';
 part 'all_news_state.dart';
 
 class AllNewsBloc extends Bloc<AllNewsEvent, AllNewsState> {
-  final NewsBlogsRepo repo = NewsBlogsRepoImplementation();
+  final NewsAndBlogsRepo repo = NewsAndBlogsRepoImplementation();
 
   AllNewsBloc() : super(AllNewsInitial()) {
     on<FetchingNewsEvent>(_onAttemptToFetchNews);
@@ -29,10 +29,10 @@ class AllNewsBloc extends Bloc<AllNewsEvent, AllNewsState> {
     final List<NewsArticleModel> news = (state is NewsFetchedSuccessfully)
         ? (state as NewsFetchedSuccessfully).news
         : [];
-    final response = await repo.FetchNews(
+    final response = await repo.fetchNews(
       offset: offset,
       limit: _limit,
-      searchText: text,
+      text: text,
     );
     offset += response.results.length;
     emit(

@@ -12,11 +12,3 @@ class FetchingNewsEvent extends AllNewsEvent {
     required this.limit,
   });
 }
-
-class SearchingNewsEvent extends AllNewsEvent {
-  final String text;
-
-  SearchingNewsEvent({required this.text});
-}
-
-class RefreshingNewsEvent extends AllNewsEvent {}

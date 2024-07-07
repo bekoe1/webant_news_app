@@ -7,16 +7,18 @@ class AllNewsInitial extends AllNewsState {}
 
 class NewsFetchedSuccessfully extends AllNewsState {
   final List<NewsArticleModel> news;
-  final bool isLoading;
 
-  NewsFetchedSuccessfully({
-    required this.news,
-    required this.isLoading,
-  });
+  NewsFetchedSuccessfully({required this.news});
 }
 
 class NewsFetchedWithError extends AllNewsState {
   final String error;
 
   NewsFetchedWithError({required this.error});
+}
+
+class NewsLoading extends AllNewsState {
+  final List<NewsArticleModel> news;
+
+  NewsLoading({required this.news});
 }

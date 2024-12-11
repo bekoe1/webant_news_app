@@ -1,16 +1,11 @@
-# bloc_test_app
+# Webant news app
 
-A new Flutter project.
+Тестовое приложение для webant.
 
-## Getting Started
+## Краткое описание
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+1) Ui по дизайн-макету figma
+2) Di - getIt/injectable
+3) Стейт менеджер - bloc
+4) Клиент-серверное взаимодействие через Rest Api
+5) Кодоген для dto/models - freezed
